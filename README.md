@@ -2,7 +2,7 @@
 
 # React Native Crypto
 
-Common encryption/decryption for react-native
+A simpler React-Native crypto library
 
 ## API
 
