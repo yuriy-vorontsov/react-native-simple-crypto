@@ -57,7 +57,7 @@ declare module "@walletconnect/react-native-simple-crypto" {
     ): Promise<boolean>;
   }
 
-  export function RandomBytes(keySize: number): Promise<ArrayBuffer>;
+  export function RandomBytes(bytes: number): Promise<ArrayBuffer>;
 
   export default { AES, SHA, HMAC, PBKDF2, RSA, RandomBytes };
 }
