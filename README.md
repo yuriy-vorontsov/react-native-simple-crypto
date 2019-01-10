@@ -75,49 +75,57 @@ protected List<ReactPackage> getPackages() {
 
 ## API
 
+All methods are asynchronous and return promises (except for convert utils)
+
+```typescript
 - AES
-  - encrypt(text, key, iv)
-  - decrypt(cipherText, key, iv)
+  - encrypt(text: ArrayBuffer, key: ArrayBuffer, iv: ArrayBuffer)
+  - decrypt(cipherText: ArrayBuffer, key: ArrayBuffer, iv: ArrayBuffer)
 - SHA
-  - sha1(text)
-  - sha256(text)
-  - sha512(text)
+  - sha1(text: string)
+  - sha256(text: string)
+  - sha512(text: string)
 - HMAC
-  - hmac256(text, key)
+  - hmac256(text: ArrayBuffer, key: ArrayBuffer)
 - PBKDF2
-  - hash(password, salt, iterations, keyLength, hash)
+  - hash(password: string, salt: ArrayBuffer, iterations: number, keyLength: number, hash: string)
 - RSA
-  - generateKeys(keySize)
-  - encrypt(data, key)
-  - sign(data, key, hash)
-  - verify(data, secretToVerify, hash)
+  - generateKeys(keySize: number)
+  - encrypt(data: string, key: string)
+  - sign(data: string, key: string, hash: string)
+  - verify(data: string, secretToVerify: string, hash: string)
 - utils
-  - randomBytes(bytes)
+  - randomBytes(bytes: number)
   - convert
     - ArrayBuffer
       - to
-        - Utf8(arrayBuffer)
-        - Hex(arrayBuffer)
-        - Base64(arrayBuffer)
+        - Utf8(input: ArrayBuffer)
+        - Hex(input: ArrayBuffer)
+        - Base64(input: ArrayBuffer)
       - from
-        - Utf8(string)
-        - Hex(string)
-        - Base64(string)
+        - Utf8(input: string)
+        - Hex(input: string)
+        - Base64(input: string)
     - Utf8
       - to
-        - ArrayBuffer(string)
+        - ArrayBuffer(input: string)
       - from
-        - ArrayBuffer(arrayBuffer)
+        - ArrayBuffer(input: ArrayBuffer)
     - Hex
       - to
-        - ArrayBuffer(string)
+        - ArrayBuffer(input: string)
       - from
-        - ArrayBuffer(arrayBuffer)
+        - ArrayBuffer(input: ArrayBuffer)
     - Base64
       - to
-        - ArrayBuffer(string)
+        - ArrayBuffer(input: string)
       - from
-        - ArrayBuffer(arrayBuffer)
+        - ArrayBuffer(input: ArrayBuffer)
+```
+
+> _NOTE:_ Supported hashing algorithms for RSA and PBKDF2 are:
+>
+> `"Raw" (RSA-only) | "SHA1" | "SHA224" | "SHA256" | "SHA384" | "SHA512"`
 
 ## Example
 
@@ -224,7 +232,7 @@ const rsaDecryptedMessage = await RNSimpleCrypto.RSA.decrypt(
 console.log("rsa Decrypt:", rsaDecryptedMessage);
 ```
 
-## Forked Libraries
+## Forked Libraries
 
 - [@trackforce/react-native-crypto](https://github.com/trackforce/react-native-crypto)
 - [react-native-randombytes](https://github.com/mvayngrib/react-native-randombytes)
