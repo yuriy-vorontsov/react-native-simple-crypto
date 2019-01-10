@@ -1,4 +1,4 @@
-package com.trackforce.crypto;
+package org.walletconnect.crypto;
 
 import android.widget.Toast;
 
@@ -46,52 +46,51 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.Callback;
 
-public class RCTSha extends ReactContextBaseJavaModule {
+public class RCTPbkdf2 extends ReactContextBaseJavaModule {
 
-    public RCTSha(ReactApplicationContext reactContext) {
+    public RCTPbkdf2(ReactApplicationContext reactContext) {
         super(reactContext);
     }
 
     @Override
     public String getName() {
-        return "RCTSha";
+        return "RCTPbkdf2";
     }
 
     @ReactMethod
-    public void sha256(String data, Promise promise) {
+    public void hash(String pwd, String saltBase64, Integer iterations, Integer keyLen, String hash, Promise promise) {
         try {
-            String result = shaX(data, "SHA-256");
-            promise.resolve(result);
+            String strs = pbkdf2(pwd, saltBase64, iterations, keyLen, hash);
+            promise.resolve(strs);
         } catch (Exception e) {
             promise.reject("-1", e.getMessage());
         }
     }
 
-    @ReactMethod
-    public void sha1(String data, Promise promise) {
-        try {
-            String result = shaX(data, "SHA-1");
-            promise.resolve(result);
-        } catch (Exception e) {
-            promise.reject("-1", e.getMessage());
+    public static String bytesToHex(byte[] bytes) {
+        final char[] hexArray = "0123456789abcdef".toCharArray();
+        char[] hexChars = new char[bytes.length * 2];
+        for ( int j = 0; j < bytes.length; j++ ) {
+            int v = bytes[j] & 0xFF;
+            hexChars[j * 2] = hexArray[v >>> 4];
+            hexChars[j * 2 + 1] = hexArray[v & 0x0F];
         }
+        return new String(hexChars);
     }
 
-    @ReactMethod
-    public void sha512(String data, Promise promise) {
-        try {
-            String result = shaX(data, "SHA-512");
-            promise.resolve(result);
-        } catch (Exception e) {
-            promise.reject("-1", e.getMessage());
-        }
-    }
+    private static String pbkdf2(String pwd, String salt, Integer iterations, Integer keyLen, String hash) throws NoSuchAlgorithmException, InvalidKeySpecException {
+        Map<String, ExtendedDigest> algMap = new HashMap<String, ExtendedDigest>();
+        algMap.put("SHA1", new SHA1Digest());
+        algMap.put("SHA224", new SHA224Digest());
+        algMap.put("SHA256", new SHA256Digest());
+        algMap.put("SHA384", new SHA384Digest());
+        algMap.put("SHA512", new SHA512Digest());
+        ExtendedDigest alg = algMap.get(hash);
 
-    private String shaX(String data, String algorithm) throws Exception {
-        MessageDigest md = MessageDigest.getInstance(algorithm);
-        md.update(data.getBytes());
-        byte[] digest = md.digest();
-
-        return Base64.encodeToString(digest, Base64.DEFAULT);
+        PBEParametersGenerator gen = new PKCS5S2ParametersGenerator(alg);
+        byte[] saltBytes = Base64.decode(salt, Base64.DEFAULT);
+        gen.init(pwd.getBytes(StandardCharsets.UTF_8), saltBytes, iterations);
+        byte[] key = ((KeyParameter) gen.generateDerivedParameters(keyLen * 8)).getKey();
+        return bytesToHex(key);
     }
 }

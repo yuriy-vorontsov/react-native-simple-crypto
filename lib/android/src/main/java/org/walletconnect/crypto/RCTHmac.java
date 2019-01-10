@@ -1,4 +1,4 @@
-package com.trackforce.crypto;
+package org.walletconnect.crypto;
 
 import android.widget.Toast;
 
@@ -46,21 +46,23 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.Callback;
 
-public class RCTPbkdf2 extends ReactContextBaseJavaModule {
+public class RCTHmac extends ReactContextBaseJavaModule {
 
-    public RCTPbkdf2(ReactApplicationContext reactContext) {
+    public static final String HMAC_SHA_256 = "HmacSHA256";
+
+    public RCTHmac(ReactApplicationContext reactContext) {
         super(reactContext);
     }
 
     @Override
     public String getName() {
-        return "RCTPbkdf2";
+        return "RCTHmac";
     }
 
     @ReactMethod
-    public void hash(String pwd, String saltBase64, Integer iterations, Integer keyLen, String hash, Promise promise) {
+    public void hmac256(String data, String pwd, Promise promise) {
         try {
-            String strs = pbkdf2(pwd, saltBase64, iterations, keyLen, hash);
+            String strs = hmac256(data, pwd);
             promise.resolve(strs);
         } catch (Exception e) {
             promise.reject("-1", e.getMessage());
@@ -78,19 +80,12 @@ public class RCTPbkdf2 extends ReactContextBaseJavaModule {
         return new String(hexChars);
     }
 
-    private static String pbkdf2(String pwd, String salt, Integer iterations, Integer keyLen, String hash) throws NoSuchAlgorithmException, InvalidKeySpecException {
-        Map<String, ExtendedDigest> algMap = new HashMap<String, ExtendedDigest>();
-        algMap.put("SHA1", new SHA1Digest());
-        algMap.put("SHA224", new SHA224Digest());
-        algMap.put("SHA256", new SHA256Digest());
-        algMap.put("SHA384", new SHA384Digest());
-        algMap.put("SHA512", new SHA512Digest());
-        ExtendedDigest alg = algMap.get(hash);
-
-        PBEParametersGenerator gen = new PKCS5S2ParametersGenerator(alg);
-        byte[] saltBytes = Base64.decode(salt, Base64.DEFAULT);
-        gen.init(pwd.getBytes(StandardCharsets.UTF_8), saltBytes, iterations);
-        byte[] key = ((KeyParameter) gen.generateDerivedParameters(keyLen * 8)).getKey();
-        return bytesToHex(key);
+    private static String hmac256(String text, String key) throws NoSuchAlgorithmException, InvalidKeyException  {
+        byte[] contentData = text.getBytes(StandardCharsets.UTF_8);
+        byte[] akHexData = Hex.decode(key);
+        Mac sha256_HMAC = Mac.getInstance(HMAC_SHA_256);
+        SecretKey secret_key = new SecretKeySpec(akHexData, HMAC_SHA_256);
+        sha256_HMAC.init(secret_key);
+        return bytesToHex(sha256_HMAC.doFinal(contentData));
     }
 }

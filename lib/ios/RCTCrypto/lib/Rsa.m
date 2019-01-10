@@ -173,7 +173,7 @@ typedef void (^SecKeyPerformBlock)(SecKeyRef key);
         NSDictionary *errorDetail = @{
             NSLocalizedDescriptionKey: [NSString stringWithFormat:@"sign: Message length %lu is bigger than key length %lu",(unsigned long)[messageBytes length], (unsigned long)[self getKeyLength]]
         };
-        *anError = [NSError errorWithDomain:@"react-native-crypto" code:0 userInfo:errorDetail];
+        *anError = [NSError errorWithDomain:@"react-native-simple-crypto" code:0 userInfo:errorDetail];
         return nil;
     }
 

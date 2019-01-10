@@ -1,36 +1,41 @@
 {
-    "name": "@trackforce/react-native-crypto",
-    "version": "0.0.7",
-    "description": "React-native crypto module",
-    "main": "index.js",
-    "types": "./typings/react-native-crypto.d.ts",
-    "author": "trackforce",
-    "license": "MIT",
-    "keywords": [
-        "react-native",
-        "react-component",
-        "ios",
-        "android",
-        "aes",
-        "crypto",
-        "mobile",
-        "async",
-        "sha1",
-        "sha256",
-        "sha512",
-        "pbkdf2",
-        "hmac256",
-        "rsa"
-    ],
-    "homepage": "https://github.com/trackforce/react-native-crypto",
-    "bugs": {
-        "url": "https://github.com/trackforce/react-native-crypto/issues"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git://github.com/trackforce/react-native-crypto.git"
-    },
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
-    }
+  "name": "@walletconnect/react-native-simple-crypto",
+  "version": "0.1.0",
+  "description": "A simpler React-Native crypto library",
+  "main": "index.js",
+  "types": "./typings/react-native-simple-crypto.d.ts",
+  "author": "WalletConnect <walletconnect.org>",
+  "homepage": "https://walletconnect.org",
+  "license": "MIT",
+  "keywords": [
+    "react-native",
+    "react-component",
+    "ios",
+    "android",
+    "aes",
+    "crypto",
+    "mobile",
+    "async",
+    "sha1",
+    "sha256",
+    "sha512",
+    "pbkdf2",
+    "hmac256",
+    "rsa",
+    "random",
+    "randomBytes"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/walletconnect/react-native-simple-crypto.git"
+  },
+  "bugs": {
+    "url": "https://github.com/walletconnect/react-native-simple-crypto/issues"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "base64-js": "^1.3.0"
+  }
 }

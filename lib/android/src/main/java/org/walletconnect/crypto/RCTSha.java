@@ -1,4 +1,4 @@
-package com.trackforce.crypto;
+package org.walletconnect.crypto;
 
 import android.widget.Toast;
 
@@ -46,46 +46,52 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.Callback;
 
-public class RCTHmac extends ReactContextBaseJavaModule {
+public class RCTSha extends ReactContextBaseJavaModule {
 
-    public static final String HMAC_SHA_256 = "HmacSHA256";
-
-    public RCTHmac(ReactApplicationContext reactContext) {
+    public RCTSha(ReactApplicationContext reactContext) {
         super(reactContext);
     }
 
     @Override
     public String getName() {
-        return "RCTHmac";
+        return "RCTSha";
     }
 
     @ReactMethod
-    public void hmac256(String data, String pwd, Promise promise) {
+    public void sha256(String data, Promise promise) {
         try {
-            String strs = hmac256(data, pwd);
-            promise.resolve(strs);
+            String result = shaX(data, "SHA-256");
+            promise.resolve(result);
         } catch (Exception e) {
             promise.reject("-1", e.getMessage());
         }
     }
 
-    public static String bytesToHex(byte[] bytes) {
-        final char[] hexArray = "0123456789abcdef".toCharArray();
-        char[] hexChars = new char[bytes.length * 2];
-        for ( int j = 0; j < bytes.length; j++ ) {
-            int v = bytes[j] & 0xFF;
-            hexChars[j * 2] = hexArray[v >>> 4];
-            hexChars[j * 2 + 1] = hexArray[v & 0x0F];
+    @ReactMethod
+    public void sha1(String data, Promise promise) {
+        try {
+            String result = shaX(data, "SHA-1");
+            promise.resolve(result);
+        } catch (Exception e) {
+            promise.reject("-1", e.getMessage());
         }
-        return new String(hexChars);
     }
 
-    private static String hmac256(String text, String key) throws NoSuchAlgorithmException, InvalidKeyException  {
-        byte[] contentData = text.getBytes(StandardCharsets.UTF_8);
-        byte[] akHexData = Hex.decode(key);
-        Mac sha256_HMAC = Mac.getInstance(HMAC_SHA_256);
-        SecretKey secret_key = new SecretKeySpec(akHexData, HMAC_SHA_256);
-        sha256_HMAC.init(secret_key);
-        return bytesToHex(sha256_HMAC.doFinal(contentData));
+    @ReactMethod
+    public void sha512(String data, Promise promise) {
+        try {
+            String result = shaX(data, "SHA-512");
+            promise.resolve(result);
+        } catch (Exception e) {
+            promise.reject("-1", e.getMessage());
+        }
+    }
+
+    private String shaX(String data, String algorithm) throws Exception {
+        MessageDigest md = MessageDigest.getInstance(algorithm);
+        md.update(data.getBytes());
+        byte[] digest = md.digest();
+
+        return Base64.encodeToString(digest, Base64.DEFAULT);
     }
 }

@@ -647,7 +647,7 @@
     lodash "^4.17.10"
     to-fast-properties "^2.0.0"
 
-"@trackforce/react-native-crypto@file:../lib":
+"@walletconnect/react-native-simple-crypto@file:../lib":
   version "0.0.6"
 
 abab@^2.0.0:
