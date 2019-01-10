@@ -69,7 +69,7 @@ declare module "react-native-simple-crypto" {
           Hex: (arrayBuffer: ArrayBuffer) => string;
           Base64: (arrayBuffer: ArrayBuffer) => string;
         };
-        to: {
+        from: {
           Utf8: (string: string) => ArrayBuffer;
           Hex: (string: string) => ArrayBuffer;
           Base64: (string: string) => ArrayBuffer;
