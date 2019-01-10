@@ -3,12 +3,6 @@
 import base64js from "base64-js";
 import { NativeModules } from "react-native";
 
-const AES = NativeModules.Aes;
-const SHA = NativeModules.Sha;
-const HMAC = NativeModules.Hmac;
-const PBKDF2 = NativeModules.Pbkdf2;
-const RSA = NativeModules.Rsa;
-
 function randomBytes(length) {
   return new Promise((resolve, reject) => {
     NativeModules.RNRandomBytes.randomBytes(length, function(err, base64) {
@@ -22,4 +16,11 @@ function randomBytes(length) {
   });
 }
 
-export default { AES, SHA, HMAC, PBKDF2, RSA, randomBytes };
+export default {
+  AES: NativeModules.Aes,
+  SHA: NativeModules.Sha,
+  HMAC: NativeModules.Hmac,
+  PBKDF2: NativeModules.Pbkdf2,
+  RSA: NativeModules.Rsa,
+  randomBytes: randomBytes
+};
