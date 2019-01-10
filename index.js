@@ -16,11 +16,11 @@ export function RandomBytes(length) {
   });
 }
 
-const Aes = NativeModules.Aes;
-const Sha = NativeModules.Sha;
-const Hmac = NativeModules.Hmac;
-const Pbkdf2 = NativeModules.Pbkdf2;
-const Rsa = NativeModules.Rsa;
+const AES = NativeModules.Aes;
+const SHA = NativeModules.Sha;
+const HMAC = NativeModules.Hmac;
+const PBKDF2 = NativeModules.Pbkdf2;
+const RSA = NativeModules.Rsa;
 const RandomBytes = NativeModules.RandomBytes;
 
-export default { Aes, Sha, Hmac, Pbkdf2, Rsa };
+export default { AES, SHA, HMAC, PBKDF2, RSA, RandomBytes };

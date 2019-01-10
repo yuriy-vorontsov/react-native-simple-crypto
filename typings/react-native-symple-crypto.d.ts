@@ -7,7 +7,7 @@ declare module "@walletconnect/react-native-simple-crypto" {
     private: string;
   }
 
-  namespace Aes {
+  namespace AES {
     export function encrypt(
       text: string,
       key: string,
@@ -20,17 +20,17 @@ declare module "@walletconnect/react-native-simple-crypto" {
     ): Promise<string>;
   }
 
-  namespace Sha {
+  namespace SHA {
     export function sha1(text: string): Promise<string>;
     export function sha256(text: string): Promise<string>;
     export function sha512(text: string): Promise<string>;
   }
 
-  namespace Hmac {
+  namespace HMAC {
     export function hmac256(ciphertext: string, key: string): Promise<string>;
   }
 
-  namespace Pbkdf2 {
+  namespace PBKDF2 {
     export function hash(
       password: string,
       saltBase64: string,
@@ -40,7 +40,7 @@ declare module "@walletconnect/react-native-simple-crypto" {
     ): Promise<string>;
   }
 
-  namespace Rsa {
+  namespace RSA {
     export function generateKeys(keySize: number): Promise<KeyPair>;
     export function encrypt(data: string, key: string): Promise<string>;
     export function decrypt(data: string, key: string): Promise<string>;
@@ -57,5 +57,7 @@ declare module "@walletconnect/react-native-simple-crypto" {
     ): Promise<boolean>;
   }
 
-  export { Aes, Sha, Hmac, Pbkdf2, Rsa };
+  export function RandomBytes(keySize: number): Promise<ArrayBuffer>;
+
+  export default { AES, SHA, HMAC, PBKDF2, RSA, RandomBytes };
 }

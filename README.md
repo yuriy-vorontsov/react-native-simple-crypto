@@ -4,14 +4,25 @@
 
 Common encryption/decryption for react-native
 
-## Features
+## API
 
-- [x] RSA
-- [x] AES
-- [x] Hmac
-- [x] Pbkdf2
-- [x] Sha
-- [x] RandomBytes
+- AES
+  - encrypt(text, key, iv)
+  - decrypt(cipherText, key, iv)
+- SHA
+  - sha1(text)
+  - sha256(text)
+  - sha512(text)
+- HMAC
+  - hmac256(text, key)
+- PBKDF2
+  - hash(password, saltBase64, iterations, keyLen, hash)
+- RSA
+  - generateKeys(keySize)
+  - encrypt(data, key)
+  - sign(data, key, hash)
+  - verify(data, secretToVerify, hash)
+- RandomBytes(bytes)
 
 ## Installation
 
@@ -74,15 +85,6 @@ protected List<ReactPackage> getPackages() {
 }
 ```
 
-## Local development
-
-1. `yarn install`
-2. `cd demo`
-3. `yarn install`
-4. `react-native run-ios`
-
-Note: React native doesn't support [Symlinks](https://github.com/facebook/metro/issues/1). See [Stackoverflow](https://stackoverflow.com/questions/44061155/react-native-npm-link-local-dependency-unable-to-resolve-module).
-
 ## Usage
 
 ### Example
@@ -143,68 +145,4 @@ console.log("rsa Decrypt:", rsaDecryptedMessage);
 
 const randomBytes = await RandomBytes(32);
 console.log("randomBytes:", randomBytes);
-```
-
-### Typings
-
-```typescript
-interface PublicKey {
-  public: string;
-}
-
-interface KeyPair extends PublicKey {
-  private: string;
-}
-
-namespace Aes {
-  export function encrypt(
-    text: string,
-    key: string,
-    iv: string
-  ): Promise<string>;
-  export function decrypt(
-    ciphertext: string,
-    key: string,
-    iv: string
-  ): Promise<string>;
-}
-
-namespace Sha {
-  export function sha1(text: string): Promise<string>;
-  export function sha256(text: string): Promise<string>;
-  export function sha512(text: string): Promise<string>;
-}
-
-namespace Hmac {
-  export function hmac256(ciphertext: string, key: string): Promise<string>;
-}
-
-namespace Pbkdf2 {
-  export function hash(
-    password: string,
-    saltBase64: string,
-    iterations: number,
-    keyLen: number,
-    hash: "SHA1" | "SHA224" | "SHA256" | "SHA384" | "SHA512"
-  ): Promise<string>;
-}
-
-namespace Rsa {
-  export function generateKeys(keySize: number): Promise<KeyPair>;
-  export function encrypt(data: string, key: string): Promise<string>;
-  export function decrypt(data: string, key: string): Promise<string>;
-  export function sign(
-    data: string,
-    key: string,
-    hash: "Raw" | "SHA1" | "SHA224" | "SHA256" | "SHA384" | "SHA512"
-  ): Promise<string>;
-  export function verify(
-    data: string,
-    secretToVerify: string,
-    key: string,
-    hash: "Raw" | "SHA1" | "SHA224" | "SHA256" | "SHA384" | "SHA512"
-  ): Promise<boolean>;
-}
-
-export function RandomBytes(keySize: number): Promise<ArrayBuffer>;
 ```
