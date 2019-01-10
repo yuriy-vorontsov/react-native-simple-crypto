@@ -81,7 +81,7 @@ public class RCTHmac extends ReactContextBaseJavaModule {
     }
 
     private static String hmac256(String text, String key) throws NoSuchAlgorithmException, InvalidKeyException  {
-        byte[] contentData = text.getBytes(StandardCharsets.UTF_8);
+        byte[] contentData = Hex.decode(text);
         byte[] akHexData = Hex.decode(key);
         Mac sha256_HMAC = Mac.getInstance(HMAC_SHA_256);
         SecretKey secret_key = new SecretKeySpec(akHexData, HMAC_SHA_256);
