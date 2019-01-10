@@ -1,4 +1,4 @@
-[![npm version](https://badge.fury.io/js/%40walletconnect%2Freact-native-simple-crypto.svg)](https://badge.fury.io/js/%40walletconnect%2Freact-native-simple-crypto)
+[![npm version](https://badge.fury.io/js/react-native-simple-crypto.svg)](https://badge.fury.io/js/react-native-simple-crypto)
 
 # React Native Crypto
 
