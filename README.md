@@ -62,7 +62,7 @@ dependencies {
 
 ```java
 ......
-import org.walletconnect.aes.RCTCryptoPackage;
+import org.walletconnect.crypto.RCTCryptoPackage;
 
 ......
 
