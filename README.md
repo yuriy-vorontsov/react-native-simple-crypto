@@ -27,11 +27,11 @@ A simpler React-Native crypto library
 ## Installation
 
 ```bash
-npm install @walletconnect/react-native-simple-crypto
+npm install react-native-simple-crypto
 
 # OR
 
-yarn add @walletconnect/react-native-simple-crypto
+yarn add react-native-simple-crypto
 ```
 
 ### Linking Automatically
@@ -55,8 +55,8 @@ react-native link
 
 ```gradle
 ...
-include ':@walletconnect/react-native-simple-crypto'
-project(':@walletconnect/react-native-simple-crypto').projectDir = new File(rootProject.projectDir, '../node_modules/@walletconnect/react-native-simple-crypto/android')
+include ':react-native-simple-crypto'
+project(':react-native-simple-crypto').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-simple-crypto/android')
 ```
 
 - In `android/app/build.gradle`
@@ -65,7 +65,7 @@ project(':@walletconnect/react-native-simple-crypto').projectDir = new File(root
 ...
 dependencies {
     ...
-    compile project(':@walletconnect/react-native-simple-crypto')
+    compile project(':react-native-simple-crypto')
 }
 ```
 

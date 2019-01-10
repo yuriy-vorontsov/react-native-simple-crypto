@@ -1,5 +1,5 @@
 {
-  "name": "@walletconnect/react-native-simple-crypto",
+  "name": "react-native-simple-crypto",
   "version": "0.1.0",
   "description": "A simpler React-Native crypto library",
   "main": "index.js",

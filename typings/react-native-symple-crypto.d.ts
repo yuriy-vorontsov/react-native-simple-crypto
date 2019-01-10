@@ -1,4 +1,4 @@
-declare module "@walletconnect/react-native-simple-crypto" {
+declare module "react-native-simple-crypto" {
   interface PublicKey {
     public: string;
   }
