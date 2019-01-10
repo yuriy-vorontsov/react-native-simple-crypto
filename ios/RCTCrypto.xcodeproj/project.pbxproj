@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		42F12D9A21E7D98C00519322 /* RNRandomBytes.m in Sources */ = {isa = PBXBuildFile; fileRef = 42F12D9921E7D98C00519322 /* RNRandomBytes.m */; };
 		9643DA86218A0E3800535D00 /* Sha.m in Sources */ = {isa = PBXBuildFile; fileRef = 9643DA84218A0E3800535D00 /* Sha.m */; };
 		9643DA87218A0E3800535D00 /* Shared.m in Sources */ = {isa = PBXBuildFile; fileRef = 9643DA85218A0E3800535D00 /* Shared.m */; };
 		9643DA8A218A0E4400535D00 /* RCTSha.m in Sources */ = {isa = PBXBuildFile; fileRef = 9643DA89218A0E4400535D00 /* RCTSha.m */; };
@@ -35,6 +36,8 @@
 
 /* Begin PBXFileReference section */
 		32D980DD1BE9F11C00FA27E5 /* libRCTCrypto.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRCTCrypto.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		42F12D9821E7D98C00519322 /* RNRandomBytes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNRandomBytes.h; sourceTree = "<group>"; };
+		42F12D9921E7D98C00519322 /* RNRandomBytes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNRandomBytes.m; sourceTree = "<group>"; };
 		9643DA82218A0E3800535D00 /* Sha.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sha.h; sourceTree = "<group>"; };
 		9643DA83218A0E3800535D00 /* Shared.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shared.h; sourceTree = "<group>"; };
 		9643DA84218A0E3800535D00 /* Sha.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sha.m; sourceTree = "<group>"; };
@@ -101,6 +104,8 @@
 				9643DA89218A0E4400535D00 /* RCTSha.m */,
 				9668CE0521471DEA001D58C3 /* RCTAes.h */,
 				9668CE0621471DEA001D58C3 /* RCTAes.m */,
+				42F12D9821E7D98C00519322 /* RNRandomBytes.h */,
+				42F12D9921E7D98C00519322 /* RNRandomBytes.m */,
 				32D981161BE9F1B600FA27E5 /* lib */,
 			);
 			path = RCTCrypto;
@@ -191,6 +196,7 @@
 				9643DA93218A65A900535D00 /* Pbkdf2.m in Sources */,
 				9643DA9F218B77A200535D00 /* Rsa.m in Sources */,
 				9643DA96218A65B500535D00 /* RCTPbkdf2.m in Sources */,
+				42F12D9A21E7D98C00519322 /* RNRandomBytes.m in Sources */,
 				9643DA90218A5C5200535D00 /* Hmac.m in Sources */,
 				9643DA9E218B77A200535D00 /* RsaFormatter.m in Sources */,
 				9643DA87218A0E3800535D00 /* Shared.m in Sources */,
