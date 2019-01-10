@@ -93,9 +93,9 @@ const AES = {
   encrypt: function(textArrayBuffer, keyArrayBuffer, ivArrayBuffer) {
     const textString = convertArrayBufferToUtf8(textArrayBuffer);
     const keyHex = convertArrayBufferToHex(keyArrayBuffer);
-    const ivBase64 = convertArrayBufferToBase64(ivArrayBuffer);
+    const ivHex = convertArrayBufferToHex(ivArrayBuffer);
     return new Promise((resolve, reject) => {
-      NativeModules.Aes.encrypt(textString, keyHex, ivBase64)
+      NativeModules.Aes.encrypt(textString, keyHex, ivHex)
         .then(cipherTextBase64 => {
           const result = convertBase64ToArrayBuffer(cipherTextBase64);
           resolve(result);
@@ -106,9 +106,9 @@ const AES = {
   decrypt: function(cipherTextArrayBuffer, keyArrayBuffer, ivArrayBuffer) {
     const cipherTextBase64 = convertArrayBufferToBase64(cipherTextArrayBuffer);
     const keyHex = convertArrayBufferToHex(keyArrayBuffer);
-    const ivBase64 = convertArrayBufferToBase64(ivArrayBuffer);
+    const ivHex = convertArrayBufferToHex(ivArrayBuffer);
     return new Promise((resolve, reject) => {
-      NativeModules.Aes.decrypt(cipherTextBase64, keyHex, ivBase64)
+      NativeModules.Aes.decrypt(cipherTextBase64, keyHex, ivHex)
         .then(textString => {
           const result = convertUtf8ToArrayBuffer(textString);
           resolve(result);
