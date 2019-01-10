@@ -1,6 +1,6 @@
 {
   "name": "react-native-simple-crypto",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "A simpler React-Native crypto library",
   "main": "index.js",
   "author": "WalletConnect <walletconnect.org>",
