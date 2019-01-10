@@ -2,25 +2,15 @@
 
 A simpler React-Native crypto library
 
-## API
+## Features
 
-- AES
-  - encrypt(text, key, iv)
-  - decrypt(cipherText, key, iv)
-- SHA
-  - sha1(text)
-  - sha256(text)
-  - sha512(text)
-- HMAC
-  - hmac256(text, key)
+- AES-256-CBC
+- HMAC-SHA256
+- SHA1
+- SHA256
+- SHA512
 - PBKDF2
-  - hash(password, saltBase64, iterations, keyLen, hash)
 - RSA
-  - generateKeys(keySize)
-  - encrypt(data, key)
-  - sign(data, key, hash)
-  - verify(data, secretToVerify, hash)
-- randomBytes(bytes)
 
 ## Installation
 
@@ -83,45 +73,128 @@ protected List<ReactPackage> getPackages() {
 }
 ```
 
-## Usage
+## API
 
-### Example
+- AES
+  - encrypt(text, key, iv)
+  - decrypt(cipherText, key, iv)
+- SHA
+  - sha1(text)
+  - sha256(text)
+  - sha512(text)
+- HMAC
+  - hmac256(text, key)
+- PBKDF2
+  - hash(password, salt, iterations, keyLength, hash)
+- RSA
+  - generateKeys(keySize)
+  - encrypt(data, key)
+  - sign(data, key, hash)
+  - verify(data, secretToVerify, hash)
+- utils
+  - randomBytes(bytes)
+  - convert
+    - ArrayBuffer
+      - to
+        - Utf8(arrayBuffer)
+        - Hex(arrayBuffer)
+        - Base64(arrayBuffer)
+      - from
+        - Utf8(string)
+        - Hex(string)
+        - Base64(string)
+    - Utf8
+      - to
+        - ArrayBuffer(string)
+      - from
+        - ArrayBuffer(arrayBuffer)
+    - Hex
+      - to
+        - ArrayBuffer(string)
+      - from
+        - ArrayBuffer(arrayBuffer)
+    - Base64
+      - to
+        - ArrayBuffer(string)
+      - from
+        - ArrayBuffer(arrayBuffer)
+
+## Example
 
 ```javascript
 import RNSimpleCrypto from "react-native-simple-crypto";
 
+// -- AES ------------------------------------------------------------- //
+
+const message = "data to encrypt";
+const messageArrayBuffer = RNSimpleCrypto.utils.convert.Utf8.to.ArrayBuffer(
+  message
+);
+
+const keyArrayBuffer = await RNSimpleCrypto.randomBytes(32);
+console.log("randomBytes key", keyArrayBuffer);
+
+const ivArrayBuffer = await RNSimpleCrypto.randomBytes(16);
+console.log("randomBytes iv", ivArrayBuffer);
+
+const cipherTextArrayBuffer = await RNSimpleCrypto.AES.encrypt(
+  msgArrayBuffer,
+  keyArrayBuffer,
+  ivArrayBuffer
+);
+console.log("AES encrypt", cipherTextArrayBuffer);
+
+const messageArrayBuffer = await RNSimpleCrypto.AES.decrypt(
+  cipherTextArrayBuffer,
+  keyArrayBuffer,
+  ivArrayBuffer
+);
+const message = RNSimpleCrypto.utils.convert.ArrayBuffer.to.Utf8(
+  messageArrayBuffer
+);
+console.log("AES decrypt", message);
+
+// -- HMAC ------------------------------------------------------------ //
+
+const signatureArrayBuffer = await RNSimpleCrypto.HMAC.hmac256(message, key);
+
+const signatureHex = RNSimpleCrypto.utils.convert.ArrayBuffer.to.Hex(
+  signatureArrayBuffer
+);
+console.log("HMAC signature", signatureHex);
+
+// -- SHA ------------------------------------------------------------- //
+
+const sha1Hash = await RNSimpleCrypto.SHA.sha1("test");
+console.log("SHA1 hash", hash);
+
+const sha256Hash = await RNSimpleCrypto.SHA.sha1("test");
+console.log("SHA256 hash", sha256Hash);
+
+const sha512Hash = await RNSimpleCrypto.SHA.sha1("test");
+console.log("SHA512 hash", sha512Hash);
+
+// -- PBKDF2 ---------------------------------------------------------- //
+
+const password = "secret password";
+const salt = RNSimpleCrypto.randomBytes(8);
 const iterations = 4096;
 const keyInBytes = 32;
-const message = "data to encrypt";
-const key = await Pbkdf2.hash("a0", "a1b4efst", iterations, keyInBytes, "SHA1");
-console.log(`pbkdf2 key: ${key}`);
-
-const ivBuffer = Buffer.from("random16bytesstr");
-const ivBase64 = ivBuffer.toString("base64");
-console.log("ivBase64:", ivBase64);
-const aesEncryptedMessage = await RNSimpleCrypto.AES.encrypt(
-  message,
-  key,
-  ivBase64
+const hash = "SHA1";
+const passwordKey = await Pbkdf2.hash(
+  password,
+  salt,
+  iterations,
+  keyInBytes,
+  hash
 );
-console.log(`aes Encrypt: ${aesEncryptedMessage}`);
+console.log("PBKDF2 passwordKey", passwordKey);
 
-const aesDecryptedMessage = await RNSimpleCrypto.AES.decrypt(
-  aesEncryptedMessage,
-  key,
-  ivBase64
-);
-console.log(`aes Decrypt: ${aesDecryptedMessage}`);
-
-const hmac256Hash = await RNSimpleCrypto.HMAC.hmac256(message, key);
-console.log(`hmac256: ${hmac256Hash}`);
-
-const sha1hash = await RNSimpleCrypto.SHA.sha1("test");
-console.log(`sha1: ${sha1hash}`);
+// -- RSA ------------------------------------------------------------ //
 
 const rsaKeys = await RNSimpleCrypto.RSA.generateKeys(1024);
-console.log("1024 private:", rsaKeys.private);
-console.log("1024 public:", rsaKeys.public);
+console.log("RSA1024 private key", rsaKeys.private);
+console.log("RSA1024 public key", rsaKeys.public);
 
 const rsaEncryptedMessage = await RNSimpleCrypto.RSA.encrypt(
   message,
@@ -149,7 +222,9 @@ const rsaDecryptedMessage = await RNSimpleCrypto.RSA.decrypt(
   rsaKeys.private
 );
 console.log("rsa Decrypt:", rsaDecryptedMessage);
-
-const bytes = await RNSimpleCrypto.randomBytes(32);
-console.log("randomBytes:", bytes);
 ```
+
+## Forked Libraries
+
+- [@trackforce/react-native-crypto](https://github.com/trackforce/react-native-crypto)
+- [react-native-randombytes](https://github.com/mvayngrib/react-native-randombytes)

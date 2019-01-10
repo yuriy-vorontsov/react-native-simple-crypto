@@ -76,83 +76,134 @@ function convertHexToArrayBuffer(hex) {
   return result;
 }
 
-export default {
-  AES: {
-    encrypt: function(textArrayBuffer, keyArrayBuffer, ivArrayBuffer) {
-      const textString = convertArrayBufferToUtf8(textArrayBuffer);
-      const keyHex = convertArrayBufferToHex(keyArrayBuffer);
-      const ivBase64 = convertArrayBufferToBase64(ivArrayBuffer);
-      return new Promise((resolve, reject) => {
-        NativeModules.Aes.encrypt(textString, keyHex, ivBase64)
-          .then(cipherTextBase64 => {
-            const result = convertBase64ToArrayBuffer(cipherTextBase64);
-            resolve(result);
-          })
-          .catch(error => reject(error));
-      });
-    },
-    decrypt: function(cipherTextArrayBuffer, keyArrayBuffer, ivArrayBuffer) {
-      const cipherTextBase64 = convertArrayBufferToBase64(
-        cipherTextArrayBuffer
-      );
-      const keyHex = convertArrayBufferToHex(keyArrayBuffer);
-      const ivBase64 = convertArrayBufferToBase64(ivArrayBuffer);
-      return new Promise((resolve, reject) => {
-        NativeModules.Aes.decrypt(cipherTextBase64, keyHex, ivBase64)
-          .then(textString => {
-            const result = convertUtf8ToArrayBuffer(textString);
-            resolve(result);
-          })
-          .catch(error => reject(error));
-      });
-    }
-  },
-  SHA: NativeModules.Sha,
-  HMAC: {
-    hmac256: function(textArrayBuffer, keyArrayBuffer) {
-      const textHex = convertArrayBufferToHex(textArrayBuffer);
-      const keyHex = convertArrayBufferToHex(keyArrayBuffer);
-      return new Promise((resolve, reject) => {
-        NativeModules.Hmac.hmac256(textHex, keyHex)
-          .then(signatureHex => {
-            const result = convertHexToArrayBuffer(signatureHex);
-            resolve(result);
-          })
-          .catch(error => reject(error));
-      });
-    }
-  },
-  PBKDF2: {
-    hash: function(password, saltArrayBuffer, iterations, keyLength, hash) {
-      const saltBase64 = convertArrayBufferToBase64(saltArrayBuffer);
-      return new Promise((resolve, reject) => {
-        NativeModules.Pbkdf2.hash(
-          password,
-          saltBase64,
-          iterations,
-          keyLength,
-          hash
-        )
-          .then(hashHex => {
-            const result = convertHexToArrayBuffer(hashHex);
-            resolve(result);
-          })
-          .catch(error => reject(error));
-      });
-    }
-  },
+function randomBytes(length) {
+  return new Promise((resolve, reject) => {
+    NativeModules.RNRandomBytes.randomBytes(length, function(err, base64) {
+      if (err) {
+        reject(err);
+      } else {
+        const result = convertBase64ToArrayBuffer(base64);
+        resolve(result);
+      }
+    });
+  });
+}
 
-  RSA: NativeModules.Rsa,
-  randomBytes: function randomBytes(length) {
+const AES = {
+  encrypt: function(textArrayBuffer, keyArrayBuffer, ivArrayBuffer) {
+    const textString = convertArrayBufferToUtf8(textArrayBuffer);
+    const keyHex = convertArrayBufferToHex(keyArrayBuffer);
+    const ivBase64 = convertArrayBufferToBase64(ivArrayBuffer);
     return new Promise((resolve, reject) => {
-      NativeModules.RNRandomBytes.randomBytes(length, function(err, base64) {
-        if (err) {
-          reject(err);
-        } else {
-          const result = base64js.toByteArray(base64).buffer;
+      NativeModules.Aes.encrypt(textString, keyHex, ivBase64)
+        .then(cipherTextBase64 => {
+          const result = convertBase64ToArrayBuffer(cipherTextBase64);
           resolve(result);
-        }
-      });
+        })
+        .catch(error => reject(error));
+    });
+  },
+  decrypt: function(cipherTextArrayBuffer, keyArrayBuffer, ivArrayBuffer) {
+    const cipherTextBase64 = convertArrayBufferToBase64(cipherTextArrayBuffer);
+    const keyHex = convertArrayBufferToHex(keyArrayBuffer);
+    const ivBase64 = convertArrayBufferToBase64(ivArrayBuffer);
+    return new Promise((resolve, reject) => {
+      NativeModules.Aes.decrypt(cipherTextBase64, keyHex, ivBase64)
+        .then(textString => {
+          const result = convertUtf8ToArrayBuffer(textString);
+          resolve(result);
+        })
+        .catch(error => reject(error));
     });
   }
+};
+
+const SHA = NativeModules.Sha;
+
+const HMAC = {
+  hmac256: function(textArrayBuffer, keyArrayBuffer) {
+    const textHex = convertArrayBufferToHex(textArrayBuffer);
+    const keyHex = convertArrayBufferToHex(keyArrayBuffer);
+    return new Promise((resolve, reject) => {
+      NativeModules.Hmac.hmac256(textHex, keyHex)
+        .then(signatureHex => {
+          const result = convertHexToArrayBuffer(signatureHex);
+          resolve(result);
+        })
+        .catch(error => reject(error));
+    });
+  }
+};
+
+const PBKDF2 = {
+  hash: function(password, saltArrayBuffer, iterations, keyLength, hash) {
+    const saltBase64 = convertArrayBufferToBase64(saltArrayBuffer);
+    return new Promise((resolve, reject) => {
+      NativeModules.Pbkdf2.hash(
+        password,
+        saltBase64,
+        iterations,
+        keyLength,
+        hash
+      )
+        .then(hashHex => {
+          const result = convertHexToArrayBuffer(hashHex);
+          resolve(result);
+        })
+        .catch(error => reject(error));
+    });
+  }
+};
+
+const RSA = NativeModules.Rsa;
+
+const utils = {
+  randomBytes: randomBytes,
+  convert: {
+    ArrayBuffer: {
+      to: {
+        Utf8: convertArrayBufferToUtf8,
+        Hex: convertArrayBufferToHex,
+        Base64: convertArrayBufferToBase64
+      },
+      from: {
+        Utf8: convertUtf8ToArrayBuffer,
+        Hex: convertHexToArrayBuffer,
+        Base64: convertBase64ToArrayBuffer
+      }
+    },
+    Utf8: {
+      to: {
+        ArrayBuffer: convertUtf8ToArrayBuffer
+      },
+      from: {
+        ArrayBuffer: convertArrayBufferToUtf8
+      }
+    },
+    Hex: {
+      to: {
+        ArrayBuffer: convertHexToArrayBuffer
+      },
+      from: {
+        ArrayBuffer: convertArrayBufferToHex
+      }
+    },
+    Base64: {
+      to: {
+        ArrayBuffer: convertBase64ToArrayBuffer
+      },
+      from: {
+        ArrayBuffer: convertArrayBufferToBase64
+      }
+    }
+  }
+};
+
+export default {
+  AES: AES,
+  SHA: SHA,
+  HMAC: HMAC,
+  PBKDF2: PBKDF2,
+  RSA: RSA,
+  utils: utils
 };
