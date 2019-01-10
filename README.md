@@ -4,7 +4,7 @@ A simpler React-Native crypto library
 
 ## Features
 
-- AES-256-CBC
+- AES-128-CBC
 - HMAC-SHA256
 - SHA1
 - SHA256
