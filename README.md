@@ -96,31 +96,12 @@ All methods are asynchronous and return promises (except for convert utils)
   - verify(data: string, secretToVerify: string, hash: string)
 - utils
   - randomBytes(bytes: number)
-  - convert
-    - ArrayBuffer
-      - to
-        - Utf8(input: ArrayBuffer)
-        - Hex(input: ArrayBuffer)
-        - Base64(input: ArrayBuffer)
-      - from
-        - Utf8(input: string)
-        - Hex(input: string)
-        - Base64(input: string)
-    - Utf8
-      - to
-        - ArrayBuffer(input: string)
-      - from
-        - ArrayBuffer(input: ArrayBuffer)
-    - Hex
-      - to
-        - ArrayBuffer(input: string)
-      - from
-        - ArrayBuffer(input: ArrayBuffer)
-    - Base64
-      - to
-        - ArrayBuffer(input: string)
-      - from
-        - ArrayBuffer(input: ArrayBuffer)
+  - convertArrayBufferToUtf8(input: ArrayBuffer)
+  - convertUtf8ToArrayBuffer(input: string)
+  - convertArrayBufferToBase64(input: ArrayBuffer)
+  - convertBase64ToArrayBuffer(input: string)
+  - convertArrayBufferToHex(input: ArrayBuffer)
+  - convertHexToArrayBuffer(input: string)
 ```
 
 > _NOTE:_ Supported hashing algorithms for RSA and PBKDF2 are:
@@ -135,7 +116,7 @@ import RNSimpleCrypto from "react-native-simple-crypto";
 // -- AES ------------------------------------------------------------- //
 
 const message = "data to encrypt";
-const messageArrayBuffer = RNSimpleCrypto.utils.convert.Utf8.to.ArrayBuffer(
+const messageArrayBuffer = RNSimpleCrypto.utils.convertUtf8ToArrayBuffer(
   message
 );
 
@@ -157,7 +138,7 @@ const messageArrayBuffer = await RNSimpleCrypto.AES.decrypt(
   keyArrayBuffer,
   ivArrayBuffer
 );
-const message = RNSimpleCrypto.utils.convert.ArrayBuffer.to.Utf8(
+const message = RNSimpleCrypto.utils.convertArrayBufferToUtf8(
   messageArrayBuffer
 );
 console.log("AES decrypt", message);
@@ -166,7 +147,7 @@ console.log("AES decrypt", message);
 
 const signatureArrayBuffer = await RNSimpleCrypto.HMAC.hmac256(message, key);
 
-const signatureHex = RNSimpleCrypto.utils.convert.ArrayBuffer.to.Hex(
+const signatureHex = RNSimpleCrypto.utils.convertArrayBuffertoHex(
   signatureArrayBuffer
 );
 console.log("HMAC signature", signatureHex);

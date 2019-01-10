@@ -62,43 +62,11 @@ declare module "react-native-simple-crypto" {
 
   export namespace utils {
     export function randomBytes(bytes: number): Promise<ArrayBuffer>;
-    export interface convert {
-      ArrayBuffer: {
-        to: {
-          Utf8: (arrayBuffer: ArrayBuffer) => string;
-          Hex: (arrayBuffer: ArrayBuffer) => string;
-          Base64: (arrayBuffer: ArrayBuffer) => string;
-        };
-        from: {
-          Utf8: (string: string) => ArrayBuffer;
-          Hex: (string: string) => ArrayBuffer;
-          Base64: (string: string) => ArrayBuffer;
-        };
-      };
-      Utf8: {
-        to: {
-          ArrayBuffer: (string: string) => ArrayBuffer;
-        };
-        from: {
-          ArrayBuffer: (arrayBuffer: ArrayBuffer) => string;
-        };
-      };
-      Hex: {
-        to: {
-          ArrayBuffer: (string: string) => ArrayBuffer;
-        };
-        from: {
-          ArrayBuffer: (arrayBuffer: ArrayBuffer) => string;
-        };
-      };
-      Base64: {
-        to: {
-          ArrayBuffer: (string: string) => ArrayBuffer;
-        };
-        from: {
-          ArrayBuffer: (arrayBuffer: ArrayBuffer) => string;
-        };
-      };
-    }
+    export function convertArrayBufferToUtf8(input: ArrayBuffer): string;
+    export function convertUtf8ToArrayBuffer(input: string): ArrayBuffer;
+    export function convertArrayBufferToBase64(input: ArrayBuffer): string;
+    export function convertBase64ToArrayBuffer(input: string): ArrayBuffer;
+    export function convertArrayBufferToHex(input: ArrayBuffer): string;
+    export function convertHexToArrayBuffer(input: string): ArrayBuffer;
   }
 }

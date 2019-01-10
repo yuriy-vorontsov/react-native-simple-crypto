@@ -159,44 +159,12 @@ const RSA = NativeModules.Rsa;
 
 const utils = {
   randomBytes: randomBytes,
-  convert: {
-    ArrayBuffer: {
-      to: {
-        Utf8: convertArrayBufferToUtf8,
-        Hex: convertArrayBufferToHex,
-        Base64: convertArrayBufferToBase64
-      },
-      from: {
-        Utf8: convertUtf8ToArrayBuffer,
-        Hex: convertHexToArrayBuffer,
-        Base64: convertBase64ToArrayBuffer
-      }
-    },
-    Utf8: {
-      to: {
-        ArrayBuffer: convertUtf8ToArrayBuffer
-      },
-      from: {
-        ArrayBuffer: convertArrayBufferToUtf8
-      }
-    },
-    Hex: {
-      to: {
-        ArrayBuffer: convertHexToArrayBuffer
-      },
-      from: {
-        ArrayBuffer: convertArrayBufferToHex
-      }
-    },
-    Base64: {
-      to: {
-        ArrayBuffer: convertBase64ToArrayBuffer
-      },
-      from: {
-        ArrayBuffer: convertArrayBufferToBase64
-      }
-    }
-  }
+  convertArrayBufferToUtf8: convertArrayBufferToUtf8,
+  convertUtf8ToArrayBuffer: convertUtf8ToArrayBuffer,
+  convertArrayBufferToBase64: convertArrayBufferToBase64,
+  convertBase64ToArrayBuffer: convertBase64ToArrayBuffer,
+  convertArrayBufferToHex: convertArrayBufferToHex,
+  convertHexToArrayBuffer: convertHexToArrayBuffer
 };
 
 export default {
