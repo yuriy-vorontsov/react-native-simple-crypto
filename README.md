@@ -139,10 +139,10 @@ const messageArrayBuffer = RNSimpleCrypto.utils.convert.Utf8.to.ArrayBuffer(
   message
 );
 
-const keyArrayBuffer = await RNSimpleCrypto.randomBytes(32);
+const keyArrayBuffer = await RNSimpleCrypto.utils.randomBytes(32);
 console.log("randomBytes key", keyArrayBuffer);
 
-const ivArrayBuffer = await RNSimpleCrypto.randomBytes(16);
+const ivArrayBuffer = await RNSimpleCrypto.utils.randomBytes(16);
 console.log("randomBytes iv", ivArrayBuffer);
 
 const cipherTextArrayBuffer = await RNSimpleCrypto.AES.encrypt(
@@ -185,7 +185,7 @@ console.log("SHA512 hash", sha512Hash);
 // -- PBKDF2 ---------------------------------------------------------- //
 
 const password = "secret password";
-const salt = RNSimpleCrypto.randomBytes(8);
+const salt = RNSimpleCrypto.utils.randomBytes(8);
 const iterations = 4096;
 const keyInBytes = 32;
 const hash = "SHA1";
