@@ -20,7 +20,7 @@ A simpler React-Native crypto library
   - encrypt(data, key)
   - sign(data, key, hash)
   - verify(data, secretToVerify, hash)
-- RandomBytes(bytes)
+- randomBytes(bytes)
 
 ## Installation
 
@@ -88,6 +88,8 @@ protected List<ReactPackage> getPackages() {
 ### Example
 
 ```javascript
+import crypto from "react-native-simple-crypto";
+
 const iterations = 4096;
 const keyInBytes = 32;
 const message = "data to encrypt";
@@ -97,37 +99,37 @@ console.log(`pbkdf2 key: ${key}`);
 const ivBuffer = Buffer.from("random16bytesstr");
 const ivBase64 = ivBuffer.toString("base64");
 console.log("ivBase64:", ivBase64);
-const aesEncryptedMessage = await Aes.encrypt(message, key, ivBase64);
+const aesEncryptedMessage = await crypto.AES.encrypt(message, key, ivBase64);
 console.log(`aes Encrypt: ${aesEncryptedMessage}`);
 
-const aesDecryptedMessage = await Aes.decrypt(
+const aesDecryptedMessage = await crypto.AES.decrypt(
   aesEncryptedMessage,
   key,
   ivBase64
 );
 console.log(`aes Decrypt: ${aesDecryptedMessage}`);
 
-const hmac256Hash = await Hmac.hmac256(message, key);
+const hmac256Hash = await crypto.HMAC.hmac256(message, key);
 console.log(`hmac256: ${hmac256Hash}`);
 
-const sha1hash = await Sha.sha1("test");
+const sha1hash = await crypto.SHA.sha1("test");
 console.log(`sha1: ${sha1hash}`);
 
-const rsaKeys = await Rsa.generateKeys(1024);
+const rsaKeys = await crypto.RSA.generateKeys(1024);
 console.log("1024 private:", rsaKeys.private);
 console.log("1024 public:", rsaKeys.public);
 
-const rsaEncryptedMessage = await Rsa.encrypt(message, rsaKeys.public);
+const rsaEncryptedMessage = await crypto.RSA.encrypt(message, rsaKeys.public);
 console.log("rsa Encrypt:", rsaEncryptedMessage);
 
-const rsaSignature = await Rsa.sign(
+const rsaSignature = await crypto.RSA.sign(
   rsaEncryptedMessage,
   rsaKeys.private,
   "SHA256"
 );
 console.log("rsa Signature:", rsaSignature);
 
-const validSignature = await Rsa.verify(
+const validSignature = await crypto.RSA.verify(
   rsaSignature,
   rsaEncryptedMessage,
   rsaKeys.public,
@@ -135,12 +137,12 @@ const validSignature = await Rsa.verify(
 );
 console.log("rsa signature verified:", validSignature);
 
-const rsaDecryptedMessage = await Rsa.decrypt(
+const rsaDecryptedMessage = await crypto.RSA.decrypt(
   rsaEncryptedMessage,
   rsaKeys.private
 );
 console.log("rsa Decrypt:", rsaDecryptedMessage);
 
-const randomBytes = await RandomBytes(32);
-console.log("randomBytes:", randomBytes);
+const bytes = await crypto.randomBytes(32);
+console.log("randomBytes:", bytes);
 ```
