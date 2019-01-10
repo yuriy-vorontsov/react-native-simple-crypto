@@ -3,7 +3,6 @@
   "version": "0.1.1",
   "description": "A simpler React-Native crypto library",
   "main": "index.js",
-  "types": "./typings/react-native-simple-crypto.d.ts",
   "author": "WalletConnect <walletconnect.org>",
   "homepage": "https://walletconnect.org",
   "license": "MIT",
