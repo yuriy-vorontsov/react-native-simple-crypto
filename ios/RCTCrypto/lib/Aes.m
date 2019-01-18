@@ -19,7 +19,7 @@
                                           kCCAlgorithmAES128,
                                           kCCOptionPKCS7Padding,
                                           keyData.bytes,
-                                          kCCKeySizeAES128,
+                                          keyData.length,
                                           ivData.bytes,
                                           data.bytes, data.length,
                                           buffer.mutableBytes,
