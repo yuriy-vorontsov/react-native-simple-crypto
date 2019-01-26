@@ -25,7 +25,7 @@ yarn add react-native-simple-crypto
 ### Linking Automatically
 
 ```bash
-react-native link
+react-native link react-native-simple-crypto
 ```
 
 ### Linking Manually
