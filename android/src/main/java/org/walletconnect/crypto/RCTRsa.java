@@ -1,4 +1,4 @@
-package org.walletconnect.crypto;
+package com.pedrouid.crypto;
 
 import android.os.AsyncTask;
 

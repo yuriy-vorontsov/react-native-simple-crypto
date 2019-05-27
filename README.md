@@ -61,7 +61,7 @@ dependencies {
 
 ```java
 ......
-import org.walletconnect.crypto.RCTCryptoPackage;
+import com.pedrouid.crypto.RCTCryptoPackage;
 
 ......
 

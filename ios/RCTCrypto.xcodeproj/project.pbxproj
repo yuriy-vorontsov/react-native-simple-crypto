@@ -159,7 +159,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0820;
-				ORGANIZATIONNAME = walletconnect;
+				ORGANIZATIONNAME = pedrouid;
 				TargetAttributes = {
 					32D980DC1BE9F11C00FA27E5 = {
 						CreatedOnToolsVersion = 6.4;
