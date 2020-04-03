@@ -1,6 +1,6 @@
 {
   "name": "react-native-simple-crypto",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "description": "A simpler React-Native crypto library",
   "main": "index.js",
   "author": "Pedro Gomes <pedro@pedrouid.com>",
