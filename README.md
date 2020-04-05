@@ -127,21 +127,21 @@ const ivArrayBuffer = await RNSimpleCrypto.utils.randomBytes(16);
 console.log("randomBytes iv", ivArrayBuffer);
 
 const cipherTextArrayBuffer = await RNSimpleCrypto.AES.encrypt(
-  msgArrayBuffer,
+  messageArrayBuffer,
   keyArrayBuffer,
   ivArrayBuffer
 );
 console.log("AES encrypt", cipherTextArrayBuffer);
 
-const messageArrayBuffer = await RNSimpleCrypto.AES.decrypt(
+const decryptedArrayBuffer = await RNSimpleCrypto.AES.decrypt(
   cipherTextArrayBuffer,
   keyArrayBuffer,
   ivArrayBuffer
 );
-const message = RNSimpleCrypto.utils.convertArrayBufferToUtf8(
-  messageArrayBuffer
+const decrypted = RNSimpleCrypto.utils.convertArrayBufferToUtf8(
+ decryptedArrayBuffer
 );
-console.log("AES decrypt", message);
+console.log("AES decrypt", decrypted);
 
 // -- HMAC ------------------------------------------------------------ //
 

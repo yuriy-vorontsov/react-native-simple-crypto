@@ -91,7 +91,6 @@ function randomBytes(length) {
 
 const AES = {
   encrypt: function(textArrayBuffer, keyArrayBuffer, ivArrayBuffer) {
-    // Input might not be UTF8 encodable
     const textBase64 = convertArrayBufferToBase64(textArrayBuffer);
     const keyHex = convertArrayBufferToHex(keyArrayBuffer);
     const ivHex = convertArrayBufferToHex(ivArrayBuffer);
