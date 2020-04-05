@@ -111,7 +111,7 @@ const AES = {
     return new Promise((resolve, reject) => {
       NativeModules.Aes.decrypt(cipherTextBase64, keyHex, ivHex)
         .then(textString => {
-          const result = convertUtf8ToArrayBuffer(textString);
+          const result = convertBase64ToArrayBuffer(textString);
           resolve(result);
         })
         .catch(error => reject(error));

@@ -142,7 +142,7 @@ public class RCTAes extends ReactContextBaseJavaModule {
         Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
         cipher.init(Cipher.DECRYPT_MODE, secretKey, hexIv == null ? emptyIvSpec : new IvParameterSpec(Hex.decode(hexIv)));
         byte[] decrypted = cipher.doFinal(Base64.decode(ciphertext, Base64.NO_WRAP));
-        return new String(decrypted, "UTF-8");
+        return Base64.encodeToString(decrypted, Base64.NO_WRAP)
     }
 
 }

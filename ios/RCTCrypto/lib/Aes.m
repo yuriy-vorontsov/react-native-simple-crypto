@@ -42,7 +42,7 @@
 
 + (NSString *) decrypt: (NSString *)cipherText key: (NSString *)key iv: (NSString *)iv {
     NSData *result = [self AES128CBC:@"decrypt" data:[[NSData alloc] initWithBase64EncodedString:cipherText options:0] key:key iv:iv];
-    return [[NSString alloc] initWithData:result encoding:NSUTF8StringEncoding];
+    return [result base64EncodedStringWithOptions:0];
 }
 
 @end
