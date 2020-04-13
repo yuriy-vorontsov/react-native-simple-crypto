@@ -34,14 +34,15 @@
     return nil;
 }
 
-+ (NSString *) encrypt: (NSString *)clearText key: (NSString *)key iv: (NSString *)iv {
-    NSData *result = [self AES128CBC:@"encrypt" data:[clearText dataUsingEncoding:NSUTF8StringEncoding] key:key iv:iv];
++ (NSString *) encrypt: (NSString *)clearText64 key: (NSString *)key iv: (NSString *)iv {
+    NSData* clearData = [[NSData alloc] initWithBase64EncodedString:clearText64 options:0];
+    NSData *result = [self AES128CBC:@"encrypt" data:clearData key:key iv:iv];
     return [result base64EncodedStringWithOptions:0];
 }
 
 + (NSString *) decrypt: (NSString *)cipherText key: (NSString *)key iv: (NSString *)iv {
     NSData *result = [self AES128CBC:@"decrypt" data:[[NSData alloc] initWithBase64EncodedString:cipherText options:0] key:key iv:iv];
-    return [[NSString alloc] initWithData:result encoding:NSUTF8StringEncoding];
+    return [result base64EncodedStringWithOptions:0];
 }
 
 @end

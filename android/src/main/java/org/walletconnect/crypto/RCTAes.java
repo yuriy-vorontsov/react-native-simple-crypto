@@ -61,9 +61,9 @@ public class RCTAes extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void encrypt(String data, String keyBase64, String ivBase64, Promise promise) {
+    public void encrypt(String dataBase64, String keyBase64, String ivBase64, Promise promise) {
         try {
-            String result = encrypt(data, keyBase64, ivBase64);
+            String result = encrypt(dataBase64, keyBase64, ivBase64);
             promise.resolve(result);
         } catch (Exception e) {
             promise.reject("-1", e.getMessage());
@@ -116,8 +116,8 @@ public class RCTAes extends ReactContextBaseJavaModule {
 
     final static IvParameterSpec emptyIvSpec = new IvParameterSpec(new byte[] {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00});
 
-    private static String encrypt(String text, String hexKey, String hexIv) throws Exception {
-        if (text == null || text.length() == 0) {
+    private static String encrypt(String textBase64, String hexKey, String hexIv) throws Exception {
+        if (textBase64 == null || textBase64.length() == 0) {
             return null;
         }
 
@@ -126,7 +126,8 @@ public class RCTAes extends ReactContextBaseJavaModule {
 
         Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
         cipher.init(Cipher.ENCRYPT_MODE, secretKey, hexIv == null ? emptyIvSpec : new IvParameterSpec(Hex.decode(hexIv)));
-        byte[] encrypted = cipher.doFinal(text.getBytes("UTF-8"));
+        byte [] textBytes = Base64.getEncoder().decode(textBase64);
+        byte[] encrypted = cipher.doFinal(textBytes);
         return Base64.encodeToString(encrypted, Base64.NO_WRAP);
     }
 
@@ -141,7 +142,7 @@ public class RCTAes extends ReactContextBaseJavaModule {
         Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
         cipher.init(Cipher.DECRYPT_MODE, secretKey, hexIv == null ? emptyIvSpec : new IvParameterSpec(Hex.decode(hexIv)));
         byte[] decrypted = cipher.doFinal(Base64.decode(ciphertext, Base64.NO_WRAP));
-        return new String(decrypted, "UTF-8");
+        return Base64.encodeToString(decrypted, Base64.NO_WRAP)
     }
 
 }

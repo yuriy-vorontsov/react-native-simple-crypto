@@ -91,11 +91,11 @@ function randomBytes(length) {
 
 const AES = {
   encrypt: function(textArrayBuffer, keyArrayBuffer, ivArrayBuffer) {
-    const textString = convertArrayBufferToUtf8(textArrayBuffer);
+    const textBase64 = convertArrayBufferToBase64(textArrayBuffer);
     const keyHex = convertArrayBufferToHex(keyArrayBuffer);
     const ivHex = convertArrayBufferToHex(ivArrayBuffer);
     return new Promise((resolve, reject) => {
-      NativeModules.Aes.encrypt(textString, keyHex, ivHex)
+      NativeModules.Aes.encrypt(textBase64, keyHex, ivHex)
         .then(cipherTextBase64 => {
           const result = convertBase64ToArrayBuffer(cipherTextBase64);
           resolve(result);
@@ -110,7 +110,7 @@ const AES = {
     return new Promise((resolve, reject) => {
       NativeModules.Aes.decrypt(cipherTextBase64, keyHex, ivHex)
         .then(textString => {
-          const result = convertUtf8ToArrayBuffer(textString);
+          const result = convertBase64ToArrayBuffer(textString);
           resolve(result);
         })
         .catch(error => reject(error));

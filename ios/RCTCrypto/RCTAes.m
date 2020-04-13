@@ -5,11 +5,11 @@
 
 RCT_EXPORT_MODULE()
 
-RCT_EXPORT_METHOD(encrypt:(NSString *)data key:(NSString *)key iv:(NSString *)iv
+RCT_EXPORT_METHOD(encrypt:(NSString *)dataBase64 key:(NSString *)key iv:(NSString *)iv
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject) {
     NSError *error = nil;
-    NSString *base64 = [Aes encrypt:data key:key iv:iv];
+    NSString *base64 = [Aes encrypt:dataBase64 key:key iv:iv];
     if (base64 == nil) {
         reject(@"encrypt_fail", @"Encrypt error", error);
     } else {
