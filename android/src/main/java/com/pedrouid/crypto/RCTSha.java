@@ -29,7 +29,6 @@ import org.spongycastle.crypto.digests.SHA1Digest;
 import org.spongycastle.crypto.digests.SHA224Digest;
 import org.spongycastle.crypto.digests.SHA256Digest;
 import org.spongycastle.crypto.digests.SHA384Digest;
-import org.spongycastle.crypto.digests.SHA384Digest;
 import org.spongycastle.crypto.digests.SHA512Digest;
 import org.spongycastle.crypto.generators.PKCS5S2ParametersGenerator;
 import org.spongycastle.crypto.PBEParametersGenerator;
@@ -58,40 +57,28 @@ public class RCTSha extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void sha256(String data, Promise promise) {
+    public void shaBase64(String data, String algorithm, Promise promise) throws Exception {
         try {
-            String result = shaX(data, "SHA-256");
-            promise.resolve(result);
+            MessageDigest md = MessageDigest.getInstance(algorithm);
+            md.update(Base64.decode(data, Base64.NO_WRAP));
+            byte[] digest = md.digest();
+
+            promise.resolve(Base64.encodeToString(digest, Base64.NO_WRAP));
         } catch (Exception e) {
             promise.reject("-1", e.getMessage());
         }
     }
 
     @ReactMethod
-    public void sha1(String data, Promise promise) {
+    public void sha(String data, String algorithm, Promise promise) throws Exception {
         try {
-            String result = shaX(data, "SHA-1");
-            promise.resolve(result);
+            MessageDigest md = MessageDigest.getInstance(algorithm);
+            md.update(data.getBytes());
+            byte[] digest = md.digest();
+
+            promise.resolve(Base64.encodeToString(digest, Base64.DEFAULT));
         } catch (Exception e) {
             promise.reject("-1", e.getMessage());
         }
-    }
-
-    @ReactMethod
-    public void sha512(String data, Promise promise) {
-        try {
-            String result = shaX(data, "SHA-512");
-            promise.resolve(result);
-        } catch (Exception e) {
-            promise.reject("-1", e.getMessage());
-        }
-    }
-
-    private String shaX(String data, String algorithm) throws Exception {
-        MessageDigest md = MessageDigest.getInstance(algorithm);
-        md.update(data.getBytes());
-        byte[] digest = md.digest();
-
-        return Base64.encodeToString(digest, Base64.DEFAULT);
     }
 }

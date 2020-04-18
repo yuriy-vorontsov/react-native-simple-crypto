@@ -89,6 +89,17 @@ function randomBytes(length) {
   });
 }
 
+async function SHAWrapper(data, algorithm) {
+  if (typeof data === 'string') {
+    return NativeModules.Sha.sha(data, algorithm)
+  } else {
+    const dataBase64 = convertArrayBufferToBase64(data);
+    const result = await NativeModules.Sha.shaBase64(dataBase64, algorithm)
+
+    return convertBase64ToArrayBuffer(result);
+  }
+}
+
 const AES = {
   encrypt: function(textArrayBuffer, keyArrayBuffer, ivArrayBuffer) {
     const textBase64 = convertArrayBufferToBase64(textArrayBuffer);
@@ -118,7 +129,11 @@ const AES = {
   }
 };
 
-const SHA = NativeModules.Sha;
+const SHA = {
+  sha1: data => SHAWrapper(data, 'SHA-1'),
+  sha256: data => SHAWrapper(data, 'SHA-256'),
+  sha512: data => SHAWrapper(data, 'SHA-512')
+};
 
 const HMAC = {
   hmac256: function(textArrayBuffer, keyArrayBuffer) {
