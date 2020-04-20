@@ -4,6 +4,8 @@ import android.widget.Toast;
 
 import java.io.IOException;
 import java.security.SecureRandom;
+import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -51,18 +53,30 @@ public class RCTSha extends ReactContextBaseJavaModule {
         super(reactContext);
     }
 
+    private static ArrayList<String> algorithms = new ArrayList<String>(
+            Arrays.asList("SHA-1",
+                    "SHA-256",
+                    "SHA-512"));
+
     @Override
     public String getName() {
         return "RCTSha";
     }
 
+    private byte[] sha(byte[] data, String algorithm) throws Exception {
+        if (!algorithms.contains(algorithm)) {
+            throw new Exception("Invalid algorithm");
+        }
+
+        MessageDigest md = MessageDigest.getInstance(algorithm);
+        md.update(data);
+        return md.digest();
+    }
+
     @ReactMethod
     public void shaBase64(String data, String algorithm, Promise promise) throws Exception {
         try {
-            MessageDigest md = MessageDigest.getInstance(algorithm);
-            md.update(Base64.decode(data, Base64.NO_WRAP));
-            byte[] digest = md.digest();
-
+            byte[] digest = this.sha(Base64.decode(data, Base64.NO_WRAP), algorithm);
             promise.resolve(Base64.encodeToString(digest, Base64.NO_WRAP));
         } catch (Exception e) {
             promise.reject("-1", e.getMessage());
@@ -70,12 +84,9 @@ public class RCTSha extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void sha(String data, String algorithm, Promise promise) throws Exception {
+    public void shaUtf8(String data, String algorithm, Promise promise) throws Exception {
         try {
-            MessageDigest md = MessageDigest.getInstance(algorithm);
-            md.update(data.getBytes());
-            byte[] digest = md.digest();
-
+            byte[] digest = data.getBytes();
             promise.resolve(Base64.encodeToString(digest, Base64.DEFAULT));
         } catch (Exception e) {
             promise.reject("-1", e.getMessage());

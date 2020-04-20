@@ -4,6 +4,7 @@ import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.Callback;
 
+import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 
 import java.security.SecureRandom;
@@ -25,8 +26,12 @@ class RandomBytesModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
-  public void randomBytes(int size, Callback success) {
-    success.invoke(null, getRandomBytes(size));
+  public void randomBytes(int size, Promise promise) {
+    try {
+      promise.resolve(getRandomBytes(size));
+    } catch (Exception e) {
+      promise.reject("-1", e.getMessage());
+    }
   }
 
   @Override
