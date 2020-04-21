@@ -5,37 +5,25 @@
 
 RCT_EXPORT_MODULE()
  
-RCT_EXPORT_METHOD(sha1:(NSString *)text
+RCT_EXPORT_METHOD(shaBase64:(NSString *)text :(NSString *)algorithm
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject) {
     NSError *error = nil;
-    NSString *data = [Sha sha1:text];
+    NSString *data = [Sha shaBase64:text :algorithm];
     if (data == nil) {
-        reject(@"sha1_fail", @"Hash error", error);
+        reject(@"shaBase64_fail", @"Hash error", error);
     } else {
         resolve(data);
     }
 }
 
-RCT_EXPORT_METHOD(sha256:(NSString *)text
+RCT_EXPORT_METHOD(shaUtf8:(NSString *)text :(NSString *)algorithm
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject) {
     NSError *error = nil;
-    NSString *data = [Sha sha256:text];
+    NSString *data = [Sha shaUtf8:text :algorithm];
     if (data == nil) {
-        reject(@"sha256_fail", @"Hash error", error);
-    } else {
-        resolve(data);
-    }
-}
-
-RCT_EXPORT_METHOD(sha512:(NSString *)text
-                  resolver:(RCTPromiseResolveBlock)resolve
-                  rejecter:(RCTPromiseRejectBlock)reject) {
-    NSError *error = nil;
-    NSString *data = [Sha sha512:text];
-    if (data == nil) {
-        reject(@"sha512_fail", @"Hash error", error);
+        reject(@"shaUtf8_fail", @"Hash error", error);
     } else {
         resolve(data);
     }
