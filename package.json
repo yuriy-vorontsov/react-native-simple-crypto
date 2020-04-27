@@ -1,10 +1,10 @@
 {
   "name": "react-native-simple-crypto",
-  "version": "0.2.8",
+  "version": "0.2.9",
   "description": "A simpler React-Native crypto library",
   "main": "index.js",
-  "author": "Pedro Gomes <pedro@pedrouid.com>",
-  "homepage": "https://github.com/pedrouid/react-native-simple-crypto",
+  "author": "Gary Button <gary.button.public@gmail.com>",
+  "homepage": "https://github.com/ghbutton/react-native-simple-crypto",
   "license": "MIT",
   "keywords": [
     "react-native",
@@ -26,10 +26,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pedrouid/react-native-simple-crypto.git"
+    "url": "git+https://github.com/ghbutton/react-native-simple-crypto.git"
   },
   "bugs": {
-    "url": "https://github.com/pedrouid/react-native-simple-crypto/issues"
+    "url": "https://github.com/ghbutton/react-native-simple-crypto/issues"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
