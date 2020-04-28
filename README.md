@@ -113,6 +113,8 @@ All methods are asynchronous and return promises (except for convert utils)
 
 ## Example
 
+Testing [repository](https://github.com/ghbutton/react-native-simple-crypto-test).
+
 ```javascript
 import RNSimpleCrypto from "react-native-simple-crypto";
 
