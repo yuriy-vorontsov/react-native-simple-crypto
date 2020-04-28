@@ -22,8 +22,11 @@ declare module "react-native-simple-crypto" {
 
   export namespace SHA {
     export function sha1(text: string): Promise<string>;
+    export function sha1(text: ArrayBuffer): Promise<ArrayBuffer>;
     export function sha256(text: string): Promise<string>;
+    export function sha256(text: ArrayBuffer): Promise<ArrayBuffer>;
     export function sha512(text: string): Promise<string>;
+    export function sha512(text: ArrayBuffer): Promise<ArrayBuffer>;
   }
 
   export namespace HMAC {
