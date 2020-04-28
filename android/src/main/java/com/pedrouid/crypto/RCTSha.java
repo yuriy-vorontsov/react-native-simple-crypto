@@ -4,6 +4,8 @@ import android.widget.Toast;
 
 import java.io.IOException;
 import java.security.SecureRandom;
+import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,7 +31,6 @@ import org.spongycastle.crypto.digests.SHA1Digest;
 import org.spongycastle.crypto.digests.SHA224Digest;
 import org.spongycastle.crypto.digests.SHA256Digest;
 import org.spongycastle.crypto.digests.SHA384Digest;
-import org.spongycastle.crypto.digests.SHA384Digest;
 import org.spongycastle.crypto.digests.SHA512Digest;
 import org.spongycastle.crypto.generators.PKCS5S2ParametersGenerator;
 import org.spongycastle.crypto.PBEParametersGenerator;
@@ -52,46 +53,43 @@ public class RCTSha extends ReactContextBaseJavaModule {
         super(reactContext);
     }
 
+    private static ArrayList<String> algorithms = new ArrayList<String>(
+            Arrays.asList("SHA-1",
+                    "SHA-256",
+                    "SHA-512"));
+
     @Override
     public String getName() {
         return "RCTSha";
     }
 
-    @ReactMethod
-    public void sha256(String data, Promise promise) {
-        try {
-            String result = shaX(data, "SHA-256");
-            promise.resolve(result);
-        } catch (Exception e) {
-            promise.reject("-1", e.getMessage());
+    private byte[] sha(byte[] data, String algorithm) throws Exception {
+        if (!algorithms.contains(algorithm)) {
+            throw new Exception("Invalid algorithm");
         }
-    }
 
-    @ReactMethod
-    public void sha1(String data, Promise promise) {
-        try {
-            String result = shaX(data, "SHA-1");
-            promise.resolve(result);
-        } catch (Exception e) {
-            promise.reject("-1", e.getMessage());
-        }
-    }
-
-    @ReactMethod
-    public void sha512(String data, Promise promise) {
-        try {
-            String result = shaX(data, "SHA-512");
-            promise.resolve(result);
-        } catch (Exception e) {
-            promise.reject("-1", e.getMessage());
-        }
-    }
-
-    private String shaX(String data, String algorithm) throws Exception {
         MessageDigest md = MessageDigest.getInstance(algorithm);
-        md.update(data.getBytes());
-        byte[] digest = md.digest();
+        md.update(data);
+        return md.digest();
+    }
 
-        return Base64.encodeToString(digest, Base64.DEFAULT);
+    @ReactMethod
+    public void shaBase64(String data, String algorithm, Promise promise) throws Exception {
+        try {
+            byte[] digest = this.sha(Base64.decode(data, Base64.NO_WRAP), algorithm);
+            promise.resolve(Base64.encodeToString(digest, Base64.NO_WRAP));
+        } catch (Exception e) {
+            promise.reject("-1", e.getMessage());
+        }
+    }
+
+    @ReactMethod
+    public void shaUtf8(String data, String algorithm, Promise promise) throws Exception {
+        try {
+            byte[] digest = data.getBytes();
+            promise.resolve(Base64.encodeToString(digest, Base64.DEFAULT));
+        } catch (Exception e) {
+            promise.reject("-1", e.getMessage());
+        }
     }
 }

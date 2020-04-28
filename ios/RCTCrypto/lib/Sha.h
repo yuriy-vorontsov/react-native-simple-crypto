@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
 
 @interface Sha : NSObject
-+ (NSString *) sha1: (NSString *)input;
-+ (NSString *) sha256: (NSString *)input;
-+ (NSString *) sha512: (NSString *)input;
++ (NSData *) sha: (NSData *)input :(NSString *)type;
++ (NSString *) shaUtf8: (NSString *)input :(NSString *)type;;
++ (NSString *) shaBase64: (NSString *)input :(NSString *)type;;
 @end

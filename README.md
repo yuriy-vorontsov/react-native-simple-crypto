@@ -83,8 +83,11 @@ All methods are asynchronous and return promises (except for convert utils)
   - decrypt(cipherText: ArrayBuffer, key: ArrayBuffer, iv: ArrayBuffer)
 - SHA
   - sha1(text: string)
+  - sha1(text: ArrayBuffer)
   - sha256(text: string)
+  - sha256(text: ArrayBuffer)
   - sha512(text: string)
+  - sha512(text: ArrayBuffer)
 - HMAC
   - hmac256(text: ArrayBuffer, key: ArrayBuffer)
 - PBKDF2
@@ -162,6 +165,13 @@ console.log("SHA256 hash", sha256Hash);
 
 const sha512Hash = await RNSimpleCrypto.SHA.sha1("test");
 console.log("SHA512 hash", sha512Hash);
+
+const dataToHash = await RNSimpleCrypto.utils.randomBytes(64);
+const sha1ArrayBuffer = await RNSimpleCrypto.SHA.sha1(dataToHash);
+console.log('SHA256 hash bytes', [...sha1ArrayBuffer]);
+
+const sha256ArrayBuffer = await RNSimpleCrypto.SHA.sha256(dataToHash);
+console.log('SHA256 hash bytes', [...sha256ArrayBuffer]);
 
 // -- PBKDF2 ---------------------------------------------------------- //
 

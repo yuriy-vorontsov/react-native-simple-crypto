@@ -9,10 +9,10 @@
 #import "RNRandomBytes.h"
 #if __has_include(<React/RCTBridgeModule.h>)
 #import <React/RCTBridgeModule.h>
-#elif __has_include(“RCTBridgeModule.h”)
-#import “RCTBridgeModule.h”
+#elif __has_include("RCTBridgeModule.h")
+#import "RCTBridgeModule.h"
 #else
-#import “React/RCTBridgeModule.h” // Required when used as a Pod in a Swift project
+#import "React/RCTBridgeModule.h" // Required when used as a Pod in a Swift project
 #endif
 
 @implementation RNRandomBytes
@@ -22,22 +22,29 @@ RCT_EXPORT_MODULE()
 @synthesize bridge = _bridge;
 
 RCT_EXPORT_METHOD(randomBytes:(NSUInteger)length
-                  callback:(RCTResponseSenderBlock)callback)
+                  resolver:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject)
 {
-    callback(@[[NSNull null], [self randomBytes:length]]);
+    NSError *error = nil;
+    NSString *base64 = [RNRandomBytes randomBytes:length];
+    if (base64 == nil) {
+        reject(@"random_bytes failed", @"Random bytes error", error);
+    } else {
+        resolve(base64);
+    }
 }
 
-- (NSString *) randomBytes:(NSUInteger)length
++ (NSString *) randomBytes:(NSUInteger)length
 {
     NSMutableData* bytes = [NSMutableData dataWithLength:length];
     SecRandomCopyBytes(kSecRandomDefault, length, [bytes mutableBytes]);
     return [bytes base64EncodedStringWithOptions:0];
 }
 
-- (NSDictionary *)constantsToExport
++ (NSDictionary *)constantsToExport
 {
     return @{
-        @"seed": [self randomBytes:4096]
+        @"seed": [RNRandomBytes randomBytes:4096]
     };
 };
 
