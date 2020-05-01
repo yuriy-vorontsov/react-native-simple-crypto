@@ -111,16 +111,27 @@ const HMAC = {
 };
 
 const PBKDF2 = {
-  hash: async function (password, saltArrayBuffer, iterations, keyLength, hash) {
-    const saltBase64 = convertArrayBufferToBase64(saltArrayBuffer);
+  hash: async function (password, salt, iterations, keyLength, algorithm) {
+    let passwordToHash = password;
+    let saltToHash = salt;
+
+    if (typeof password === 'string') {
+      passwordToHash = convertUtf8ToArrayBuffer(password);
+    }
+
+    if (typeof salt === 'string') {
+      saltToHash = convertUtf8ToArrayBuffer(salt);
+    }
+
     const hashHex = await NativeModules.Pbkdf2.hash(
-      password,
-      saltBase64,
+      convertArrayBufferToBase64(passwordToHash),
+      convertArrayBufferToBase64(saltToHash),
       iterations,
       keyLength,
-      hash
+      algorithm
     );
-    return (convertHexToArrayBuffer(hashHex));
+
+    return convertBase64ToArrayBuffer(hashHex);
   }
 };
 

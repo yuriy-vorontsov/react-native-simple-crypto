@@ -5,11 +5,15 @@
 
 RCT_EXPORT_MODULE()
 
-RCT_EXPORT_METHOD(hash:(NSString *)password saltBase64:(NSString *)saltBase64 iterations:(int)iterations keyLen:(int)keyLen hash:(NSString *)hash
+RCT_EXPORT_METHOD(hash:(NSString *)password
+                  salt:(NSString *)salt
+                  iterations:(int)iterations
+                  keyLen:(int)keyLen
+                  algorithm:(NSString *)algorithm
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject) {
     NSError *error = nil;
-    NSString *data = [Pbkdf2 hash:password saltBase64:saltBase64 iterations:iterations keyLen:keyLen hash:hash];
+    NSString *data = [Pbkdf2 hash:password salt:salt iterations:iterations keyLen:keyLen algorithm:algorithm];
     if (data == nil) {
         reject(@"keygen_fail", @"Key generation failed", error);
     } else {
