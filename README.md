@@ -182,7 +182,21 @@ const salt = RNSimpleCrypto.utils.randomBytes(8);
 const iterations = 4096;
 const keyInBytes = 32;
 const hash = "SHA1";
-const passwordKey = await Pbkdf2.hash(
+const passwordKey = await RNSimpleCrypto.PBKDF2.hash(
+  password,
+  salt,
+  iterations,
+  keyInBytes,
+  hash
+);
+console.log("PBKDF2 passwordKey", passwordKey);
+
+const password = messageArrayBuffer;
+const salt = RNSimpleCrypto.utils.randomBytes(8);
+const iterations = 10000;
+const keyInBytes = 32;
+const hash = "SHA256";
+const passwordKey = await RNSimpleCrypto.PBKDF2.hash(
   password,
   salt,
   iterations,

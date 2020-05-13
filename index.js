@@ -123,7 +123,7 @@ const PBKDF2 = {
       saltToHash = convertUtf8ToArrayBuffer(salt);
     }
 
-    const hashHex = await NativeModules.Pbkdf2.hash(
+    const digest = await NativeModules.Pbkdf2.hash(
       convertArrayBufferToBase64(passwordToHash),
       convertArrayBufferToBase64(saltToHash),
       iterations,
@@ -131,7 +131,7 @@ const PBKDF2 = {
       algorithm
     );
 
-    return convertBase64ToArrayBuffer(hashHex);
+    return convertBase64ToArrayBuffer(digest);
   }
 };
 
