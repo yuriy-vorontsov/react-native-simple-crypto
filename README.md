@@ -119,7 +119,6 @@ Testing [repository](https://github.com/ghbutton/react-native-simple-crypto-test
 import RNSimpleCrypto from "react-native-simple-crypto";
 
 // -- AES ------------------------------------------------------------- //
-
 const message = "data to encrypt";
 const messageArrayBuffer = RNSimpleCrypto.utils.convertUtf8ToArrayBuffer(
   message
@@ -150,9 +149,10 @@ console.log("AES decrypt", decrypted);
 
 // -- HMAC ------------------------------------------------------------ //
 
-const signatureArrayBuffer = await RNSimpleCrypto.HMAC.hmac256(message, key);
+const keyHmac = await RNSimpleCrypto.utils.randomBytes(32);
+const signatureArrayBuffer = await RNSimpleCrypto.HMAC.hmac256(message, keyHmac);
 
-const signatureHex = RNSimpleCrypto.utils.convertArrayBuffertoHex(
+const signatureHex = RNSimpleCrypto.utils.convertArrayBufferToHex(
   signatureArrayBuffer
 );
 console.log("HMAC signature", signatureHex);
@@ -160,20 +160,21 @@ console.log("HMAC signature", signatureHex);
 // -- SHA ------------------------------------------------------------- //
 
 const sha1Hash = await RNSimpleCrypto.SHA.sha1("test");
-console.log("SHA1 hash", hash);
+console.log("SHA1 hash", sha1Hash);
 
-const sha256Hash = await RNSimpleCrypto.SHA.sha1("test");
+const sha256Hash = await RNSimpleCrypto.SHA.sha256("test");
 console.log("SHA256 hash", sha256Hash);
 
-const sha512Hash = await RNSimpleCrypto.SHA.sha1("test");
+const sha512Hash = await RNSimpleCrypto.SHA.sha512("test");
 console.log("SHA512 hash", sha512Hash);
 
 const dataToHash = await RNSimpleCrypto.utils.randomBytes(64);
 const sha1ArrayBuffer = await RNSimpleCrypto.SHA.sha1(dataToHash);
-console.log('SHA256 hash bytes', [...sha1ArrayBuffer]);
+console.log('SHA256 hash bytes', sha1ArrayBuffer);
 
 const sha256ArrayBuffer = await RNSimpleCrypto.SHA.sha256(dataToHash);
-console.log('SHA256 hash bytes', [...sha256ArrayBuffer]);
+console.log('SHA256 hash bytes', sha256ArrayBuffer);
+
 
 // -- PBKDF2 ---------------------------------------------------------- //
 
@@ -190,20 +191,20 @@ const passwordKey = await RNSimpleCrypto.PBKDF2.hash(
   hash
 );
 console.log("PBKDF2 passwordKey", passwordKey);
+const password2 = messageArrayBuffer;
+const salt2 = RNSimpleCrypto.utils.randomBytes(8);
+const iterations2 = 10000;
+const keyInBytes2 = 32;
+const hash2 = "SHA256";
 
-const password = messageArrayBuffer;
-const salt = RNSimpleCrypto.utils.randomBytes(8);
-const iterations = 10000;
-const keyInBytes = 32;
-const hash = "SHA256";
-const passwordKey = await RNSimpleCrypto.PBKDF2.hash(
-  password,
-  salt,
-  iterations,
-  keyInBytes,
-  hash
+const passwordKey2 = await RNSimpleCrypto.PBKDF2.hash(
+  password2,
+  salt2,
+  iterations2,
+  keyInBytes2,
+  hash2
 );
-console.log("PBKDF2 passwordKey", passwordKey);
+console.log("PBKDF2 passwordKey", passwordKey2);
 
 // -- RSA ------------------------------------------------------------ //
 
