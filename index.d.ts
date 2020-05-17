@@ -38,11 +38,11 @@ declare module "react-native-simple-crypto" {
 
   export namespace PBKDF2 {
     export function hash(
-      password: string,
-      salt: ArrayBuffer,
+      password: string | ArrayBuffer,
+      salt: string | ArrayBuffer,
       iterations: number,
       keyLen: number,
-      hash: "SHA1" | "SHA224" | "SHA256" | "SHA384" | "SHA512"
+      algorithm: "SHA1" | "SHA224" | "SHA256" | "SHA384" | "SHA512"
     ): Promise<ArrayBuffer>;
   }
 

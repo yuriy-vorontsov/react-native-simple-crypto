@@ -7,10 +7,10 @@
 
 @implementation Pbkdf2
 
-+ (NSString *) hash:(NSString *)password saltBase64: (NSString *)saltBase64 iterations: (int)iterations keyLen: (int)keyLen hash: (NSString *)hash  {
++ (NSString *) hash:(NSString *)password salt: (NSString *)salt iterations: (int)iterations keyLen: (int)keyLen algorithm: (NSString *)algorithm  {
     // Data of String to generate Hash key(hexa decimal string).
-    NSData *passwordData = [password dataUsingEncoding:NSUTF8StringEncoding];
-    NSData *saltData = [[NSData alloc]initWithBase64EncodedString:saltBase64 options:0];
+    NSData *passwordData = [[NSData alloc]initWithBase64EncodedString:password options:0];
+    NSData *saltData = [[NSData alloc]initWithBase64EncodedString:salt options:0];
 
     // Hash key (hexa decimal) string data length.
     NSMutableData *hashKeyData = [NSMutableData dataWithLength:keyLen];
@@ -23,7 +23,7 @@
      @"SHA512" : [NSNumber numberWithInt:kCCPRFHmacAlgSHA512],
     };
     
-    int alg = [[algMap valueForKey:hash] intValue];
+    int alg = [[algMap valueForKey:algorithm] intValue];
 
     // Key Derivation using PBKDF2 algorithm.
     int status = CCKeyDerivationPBKDF(
@@ -42,7 +42,7 @@
         return @"";
     }
 
-    return [Shared toHex:hashKeyData];
+    return [hashKeyData base64EncodedStringWithOptions:0];
 }
 
 @end
