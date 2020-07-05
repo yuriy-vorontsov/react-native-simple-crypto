@@ -50,6 +50,9 @@ public class RCTAes extends ReactContextBaseJavaModule {
 
     private static final String CIPHER_ALGORITHM = "AES/CBC/PKCS7Padding";
     private static final String KEY_ALGORITHM = "AES";
+    
+    private final static String CIPHER_ALGORITHM_DECODE = "AES/CBC/NoPadding";
+    private final static String CIPHER_ALGORITHM_ENCODE = "AES/CBC/PKCS5Padding";
 
     public RCTAes(ReactApplicationContext reactContext) {
         super(reactContext);
@@ -113,7 +116,7 @@ public class RCTAes extends ReactContextBaseJavaModule {
         byte[] key = Hex.decode(hexKey);
         SecretKey secretKey = new SecretKeySpec(key, KEY_ALGORITHM);
 
-        Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
+        Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM_ENCODE);
         cipher.init(Cipher.ENCRYPT_MODE, secretKey, hexIv == null ? emptyIvSpec : new IvParameterSpec(Hex.decode(hexIv)));
         byte[] encrypted = cipher.doFinal(Base64.decode(textBase64, Base64.DEFAULT));
         return Base64.encodeToString(encrypted, Base64.NO_WRAP);
@@ -127,7 +130,7 @@ public class RCTAes extends ReactContextBaseJavaModule {
         byte[] key = Hex.decode(hexKey);
         SecretKey secretKey = new SecretKeySpec(key, KEY_ALGORITHM);
 
-        Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
+        Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM_DECODE);
         cipher.init(Cipher.DECRYPT_MODE, secretKey, hexIv == null ? emptyIvSpec : new IvParameterSpec(Hex.decode(hexIv)));
         byte[] decrypted = cipher.doFinal(Base64.decode(ciphertext, Base64.DEFAULT));
         return Base64.encodeToString(decrypted, Base64.NO_WRAP);
